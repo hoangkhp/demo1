@@ -12,7 +12,7 @@ public class DBContext {
   }
 
   private final String serverName = "LAPTOP-CUA-HOAN";
-  private final String dbName = "quanlybanhang";
+  private final String dbName = "quanlybanhangmaytinh";
   private final String portNumber = "1433";
   private final String instance = "";
   private final String userID = "sa";
