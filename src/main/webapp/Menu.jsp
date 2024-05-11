@@ -2,7 +2,7 @@
 <!--begin of menu-->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="home">Shoes</a>
+        <a class="navbar-brand" href="home">DTH</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,13 +10,13 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
             <ul class="navbar-nav m-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="#">About us</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Manager Account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Manager Product</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Hello Alias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Logout</a>
@@ -45,8 +45,8 @@
 </nav>
 <section class="jumbotron text-center">
     <div class="container">
-        <h1 class="jumbotron-heading">Siêu thị giày chất lượng cao</h1>
-        <p class="lead text-muted mb-0">Uy tín tạo nên thương hiệu với hơn 10 năm cung cấp các sản phầm giày nhập từ Trung Quốc</p>
+        <h1 class="jumbotron-heading">Hệ thống máy tính bán chạy nhất Việt Nam</h1>
+        <p class="lead text-muted mb-0">Vững vàng một đẳng cấp</p>
     </div>
 </section>
 <!--end of menu-->

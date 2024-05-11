@@ -54,15 +54,5 @@ public class DAO {
     return list;
   }
 
-  public static void main(String[] args) {
-    DAO dao = new DAO();
-    List<Product> list = dao.getAllProduct();//dao goi den ham getAllProduct de lay du lieu dua vao list
-    List<Category> listC = dao.getAllCategory();
-    for(Product p : list){
-      System.out.println(p);//in ra tat ca san pham co trong db
-    }
-    for(Category o : listC){
-      System.out.println(o);
-    }
-  }
+
 }
