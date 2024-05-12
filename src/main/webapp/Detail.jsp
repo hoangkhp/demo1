@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : Detail
     Created on : Dec 29, 2020, 5:43:04 PM
     Author     : trinh
@@ -59,9 +59,9 @@
                             <div class="card">
                                 <div class="row">
                                     <aside class="col-sm-5 border-right">
-                                        <article class="gallery-wrap"> 
+                                        <article class="gallery-wrap">
                                             <div class="img-big-wrap">
-                                                <div> <a href="#"><img src="https://canary.contestimg.wish.com/api/webimage/5c4a05a08b26e56dcf17a643-normal.jpg?cache_buster=6d01b751858e14e68932bb234cdc44c1"></a></div>
+                                                <div> <a href="#"><img src="${d.image}"></a></div>
                                             </div> <!-- slider-product.// -->
                                             <div class="img-small-wrap">
                                             </div> <!-- slider-nav.// -->
@@ -69,17 +69,17 @@
                                     </aside>
                                     <aside class="col-sm-7">
                                         <article class="card-body p-5">
-                                            <h3 class="title mb-3">Giày đi chơi tết</h3>
+                                            <h3 class="title mb-3">${d.name}</h3>
 
-                                            <p class="price-detail-wrap"> 
-                                                <span class="price h3 text-warning"> 
-                                                    <span class="currency">US $</span><span class="num">$200</span>
-                                                </span> 
+                                            <p class="price-detail-wrap">
+                                                <span class="price h3 text-warning">
+                                                    <span class="currency">US $</span><span class="num">${d.price}</span>
+                                                </span>
                                             </p> <!-- price-detail-wrap .// -->
                                             <dl class="item-property">
                                                 <dt>Description</dt>
                                                 <dd><p>
-                                                        Winter Men's Snow Boots Plus Velvet Cotton Shoes Men's Shoes Martin Cotton Boots Warm Shoes
+                                                  ${d.description}
 
                                                     </p></dd>
                                             </dl>

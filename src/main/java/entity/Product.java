@@ -3,16 +3,16 @@ package entity;
 
 public class Product {
   private int id;
-  private String image;
   private String name;
+  private String image;
   private double price;
   private String title;;
   private String description;
 
-  public Product(int id, String image, String name, double price, String title, String description) {
+  public Product(int id, String name, String image, double price, String title, String description) {
     this.id = id;
-    this.image = image;
     this.name = name;
+    this.image = image;
     this.price = price;
     this.title = title;
     this.description = description;
@@ -26,20 +26,20 @@ public class Product {
     this.id = id;
   }
 
-  public String getImage() {
-    return image;
-  }
-
-  public void setImage(String image) {
-    this.image = image;
-  }
-
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
   }
 
   public double getPrice() {

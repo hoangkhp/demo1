@@ -16,6 +16,7 @@ public class DAO {
   PreparedStatement ps = null; //nem cau lenh query sang sql server
   ResultSet rs = null; //nhan ket qua tra ve
   //Lay tat ca cac product trong DB va nem vao 1 cai List
+  //1. Ham tra ve toan bo Product
   public List<Product> getAllProduct(){
     List<Product> list = new ArrayList<Product>();
     String query = "select * from Products";
@@ -36,7 +37,7 @@ public class DAO {
     }
     return list;
   }
-
+//2. Ham tra ve List Category
   public List<Category> getAllCategory(){
     List<Category> list = new ArrayList<Category>();
     String query = "select * from Category";
@@ -53,6 +54,103 @@ public class DAO {
     }
     return list;
   }
+//3. Ham tra ve List Product theo Category ID
+public List<Product> getProductByCategory(String cid){
+  List<Product> list = new ArrayList<>();
+  //Cau lenh Sql giup lay cac san pham dua vao category ID
+  String query = "select * from Products\n" + "where categoryID = ?";
+  try{
+    con = new DBContext().getConnection(); //mo ket noi voi sql server
+    ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
+    ps.setString(1,cid);
+    rs = ps.executeQuery();
+    while(rs.next()){
+      list.add(new Product(rs.getInt(1),
+        rs.getString(2),
+        rs.getString(3),
+        rs.getDouble(4),
+        rs.getString(5),
+        rs.getString(6)));
+    }
+  } catch (Exception e){
 
+  }
+  return list;
+}
+//4. Hien san pham minh hoa
+public Product getLast(){
+    String query = "select top 1 * from Products\n" + "order by ProductID desc";
+  try{
+    con = new DBContext().getConnection(); //mo ket noi voi sql server
+    ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
+    rs = ps.executeQuery();
+    while(rs.next()){
+      return new Product(rs.getInt(1),
+        rs.getString(2),
+        rs.getString(3),
+        rs.getDouble(4),
+        rs.getString(5),
+        rs.getString(6));
+    }
+  } catch (Exception e){
+
+  }
+  return null;
+}
+
+  //5. Ham tra ve 1 Product theo Product ID
+  public Product getProductByID(String id){
+    //Cau lenh Sql giup lay cac san pham dua vao category ID
+    String query = "select * from Products\n" + "where ProductID = ?";
+    try{
+      con = new DBContext().getConnection(); //mo ket noi voi sql server
+      ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
+      ps.setString(1,id);
+      rs = ps.executeQuery();
+      while(rs.next()){
+        return new Product(rs.getInt(1),
+          rs.getString(2),
+          rs.getString(3),
+          rs.getDouble(4),
+          rs.getString(5),
+          rs.getString(6));
+      }
+    } catch (Exception e){
+
+    }
+    return null;
+  }
+  //6. Ham Xay Dung cho search tra ve 1 list cac san pham
+  public List<Product> searchByName(String txtSearch){
+    List<Product> list = new ArrayList<>();
+    //Cau lenh Sql giup lay cac san pham dua vao category ID
+    String query = "select * from Products\n" + "where [Name] like ?";
+    try{
+      con = new DBContext().getConnection(); //mo ket noi voi sql server
+      ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
+      ps.setString(1,"%" + txtSearch + "%");
+      rs = ps.executeQuery();
+      while(rs.next()){
+        list.add(new Product(rs.getInt(1),
+          rs.getString(2),
+          rs.getString(3),
+          rs.getDouble(4),
+          rs.getString(5),
+          rs.getString(6)));
+      }
+    } catch (Exception e){
+
+    }
+    return list;
+  }
+
+  public static void main(String[] args) {
+    String categoryID = "1";
+    DAO dao = new DAO();
+    List<Product> productList = dao.getProductByCategory(categoryID);
+    for(Product o : productList){
+      System.out.println(o);
+    }
+  }
 
 }
