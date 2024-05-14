@@ -18,7 +18,7 @@
         <div class="card-body">
             <img class="img-fluid" src="${p.image}" />
             <h5 class="card-title">${p.name}</h5>
-            <p class="card-text">${p.title}</p>
+            <p class="card-text">${p.category.name}</p>
             <p class="bloc_left_price">${p.price} $</p>
         </div>
     </div>

@@ -6,15 +6,15 @@ public class Product {
   private String name;
   private String image;
   private double price;
-  private String title;;
+  private Category category;
   private String description;
 
-  public Product(int id, String name, String image, double price, String title, String description) {
+  public Product(int id, String name, String image, double price, Category category, String description) {
     this.id = id;
     this.name = name;
     this.image = image;
     this.price = price;
-    this.title = title;
+    this.category = category;
     this.description = description;
   }
 
@@ -50,12 +50,12 @@ public class Product {
     this.price = price;
   }
 
-  public String getTitle() {
-    return title;
+  public Category getCategory() {
+    return category;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setCategory(Category category) {
+    this.category = category;
   }
 
   public String getDescription() {
@@ -68,6 +68,14 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product{" + "id=" + id + ", name=" + name + ", image=" + image + ", price=" + price + ", title=" + title + ", description=" + description + '}';
+    return "Product{" +
+      "id=" + id +
+      ", name='" + name + '\'' +
+      ", image='" + image + '\'' +
+      ", price=" + price +
+      ", category=" + category +
+      ", description='" + description + '\'' +
+      '}';
   }
 }
+

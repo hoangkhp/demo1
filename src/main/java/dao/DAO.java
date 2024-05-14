@@ -19,7 +19,19 @@ public class DAO {
   //1. Ham tra ve toan bo Product
   public List<Product> getAllProduct(){
     List<Product> list = new ArrayList<Product>();
-    String query = "select * from Products";
+    String query = "SELECT\n" +
+      "    p.ProductID,\n" +
+      "    p.Name, \n" +
+      "    p.Image, \n" +
+      "    p.Price,\n" +
+      "    c.NameCa AS CategoryName,\n" +
+      "    p.Description \n" +
+      "FROM \n" +
+      "    [Products] p \n" +
+      "JOIN \n" +
+      "    [Category] c \n" +
+      "ON \n" +
+      "    p.CategoryID = c.CategoryID;";
     try{
       con = new DBContext().getConnection(); //mo ket noi voi sql server
       ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
@@ -29,7 +41,7 @@ public class DAO {
           rs.getString(2),
           rs.getString(3),
           rs.getDouble(4),
-          rs.getString(5),
+          new Category(rs.getString(5)),
           rs.getString(6)));
       }
     } catch (Exception e){
@@ -58,7 +70,22 @@ public class DAO {
 public List<Product> getProductByCategory(String cid){
   List<Product> list = new ArrayList<>();
   //Cau lenh Sql giup lay cac san pham dua vao category ID
-  String query = "select * from Products\n" + "where categoryID = ?";
+  String query = "SELECT\n" +
+    "    p.ProductID,\n" +
+    "    p.Name, \n" +
+    "    p.Image, \n" +
+    "    p.Price,\n" +
+    "    c.NameCa AS CategoryName,\n" +
+    "    p.Description,\n" +
+    "    c.CategoryID  \n" +
+    "FROM \n" +
+    "    [Products] p \n" +
+    "JOIN \n" +
+    "    [Category] c \n" +
+    "ON \n" +
+    "    p.CategoryID = c.CategoryID\n" +
+    " where\n" +
+    " c.categoryID = ?;";
   try{
     con = new DBContext().getConnection(); //mo ket noi voi sql server
     ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
@@ -69,7 +96,7 @@ public List<Product> getProductByCategory(String cid){
         rs.getString(2),
         rs.getString(3),
         rs.getDouble(4),
-        rs.getString(5),
+        new Category(rs.getString(5)),
         rs.getString(6)));
     }
   } catch (Exception e){
@@ -79,7 +106,21 @@ public List<Product> getProductByCategory(String cid){
 }
 //4. Hien san pham minh hoa
 public Product getLast(){
-    String query = "select top 1 * from Products\n" + "order by ProductID desc";
+    String query = "SELECT TOP 1 \n" +
+      "    p.ProductID,\n" +
+      "    p.Name, \n" +
+      "    p.Image, \n" +
+      "    p.Price,\n" +
+      "    c.NameCa AS CategoryName,\n" +
+      "    p.Description \n" +
+      "FROM \n" +
+      "    [Products] p \n" +
+      "JOIN \n" +
+      "    [Category] c \n" +
+      "ON \n" +
+      "    p.CategoryID = c.CategoryID \n" +
+      "ORDER BY \n" +
+      "    p.ProductID DESC;";
   try{
     con = new DBContext().getConnection(); //mo ket noi voi sql server
     ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
@@ -89,7 +130,7 @@ public Product getLast(){
         rs.getString(2),
         rs.getString(3),
         rs.getDouble(4),
-        rs.getString(5),
+        new Category(rs.getString(5)),
         rs.getString(6));
     }
   } catch (Exception e){
@@ -101,7 +142,19 @@ public Product getLast(){
   //5. Ham tra ve 1 Product theo Product ID
   public Product getProductByID(String id){
     //Cau lenh Sql giup lay cac san pham dua vao category ID
-    String query = "select * from Products\n" + "where ProductID = ?";
+    String query = "SELECT\n" +
+      "    p.ProductID,\n" +
+      "    p.Name, \n" +
+      "    p.Image, \n" +
+      "    p.Price,\n" +
+      "    c.NameCa AS CategoryName,\n" +
+      "    p.Description \n" +
+      "FROM \n" +
+      "    [Products] p \n" +
+      "JOIN \n" +
+      "    [Category] c \n" +
+      "ON \n" +
+      "    p.CategoryID = c.CategoryID\n" + "where p.ProductID = ?;";
     try{
       con = new DBContext().getConnection(); //mo ket noi voi sql server
       ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
@@ -112,7 +165,7 @@ public Product getLast(){
           rs.getString(2),
           rs.getString(3),
           rs.getDouble(4),
-          rs.getString(5),
+          new Category(rs.getString(5)),
           rs.getString(6));
       }
     } catch (Exception e){
@@ -124,7 +177,21 @@ public Product getLast(){
   public List<Product> searchByName(String txtSearch){
     List<Product> list = new ArrayList<>();
     //Cau lenh Sql giup lay cac san pham dua vao category ID
-    String query = "select * from Products\n" + "where [Name] like ?";
+    String query = "SELECT \n" +
+      "    p.ProductID, \n" +
+      "    p.Name,\n" +
+      "    p.Image,\n" +
+      "    p.Price,\n" +
+      "    c.NameCa AS CategoryName,\n" +
+      "    p.Description \n" +
+      "FROM \n" +
+      "    [Products] p\n" +
+      "JOIN \n" +
+      "    [Category] c \n" +
+      "ON  \n" +
+      "    p.CategoryID = c.CategoryID\n" +
+      "WHERE \n" +
+      "    p.Name LIKE ?;";
     try{
       con = new DBContext().getConnection(); //mo ket noi voi sql server
       ps = con.prepareStatement(query);//Nem cau lenh query sang sqlServer
@@ -135,7 +202,7 @@ public Product getLast(){
           rs.getString(2),
           rs.getString(3),
           rs.getDouble(4),
-          rs.getString(5),
+          new Category(rs.getString(5)),
           rs.getString(6)));
       }
     } catch (Exception e){
