@@ -1,6 +1,7 @@
 package dao;
 
 import context.DBContext;
+import entity.Account;
 import entity.Category;
 import entity.Product;
 
@@ -33,7 +34,6 @@ public class DAO {
           rs.getString(6)));
       }
     } catch (Exception e){
-
     }
     return list;
   }
@@ -144,13 +144,13 @@ public Product getLast(){
     return list;
   }
   public Account login(String user, String pass) {
-    String query = "select * from account where Username = ? and Password = ?";
+    String query = "select * from Account where Username = ? and Password = ?";
     try {
-      conn = new DBContext().getConnection(); //ket noi vs SQl
-      ps = conn.prepareStatement(query);
+      con = new DBContext().getConnection(); //ket noi vs SQl
+      ps = con.prepareStatement(query);
       ps.setString(1, user);
       ps.setString(2, pass);
-      rs = ps.excuteQuery();
+      rs = ps.executeQuery();
       while (rs.next()) {
         return new Account(rs.getInt(1),
                 rs.getString(2),
@@ -163,13 +163,12 @@ public Product getLast(){
     return null;
   }
   public Account checkAccount(String user) {
-    String query = "select * from account where Username = ? and Password = ?";
+    String query = "select * from Account where Username = ?";
     try {
-      conn = new DBContext().getConnection(); //ket noi vs SQl
-      ps = conn.prepareStatement(query);
+      con = new DBContext().getConnection(); //ket noi vs SQl
+      ps = con.prepareStatement(query);
       ps.setString(1, user);
-      ps.setString(2, pass);
-      rs = ps.excuteQuery();
+      rs = ps.executeQuery();
       while (rs.next()) {
         return new Account(rs.getInt(1),
                 rs.getString(2),
@@ -182,23 +181,26 @@ public Product getLast(){
     return null;
   }
   public void signup(String user, String pass){
-    String query = "insert into account\n" + "values(?,?,0,0)";
+    String query = "insert into Account\n" + "values(?,?,0,0)";
     try {
-      conn = new DBContext().getConnection(); //ket noi vs SQl
-      ps = conn.prepareStatement(query);
+      con = new DBContext().getConnection(); //ket noi vs SQl
+      ps = con.prepareStatement(query);
       ps.setString(1, user);
       ps.setString(2, pass);
-      rs = ps.excuteUpdate();
+      ps.executeUpdate();
     } catch (Exception e){
     }
   }
 
   public static void main(String[] args) {
-    String categoryID = "1";
     DAO dao = new DAO();
-    List<Product> productList = dao.getProductByCategory(categoryID);
-    for(Product o : productList){
-      System.out.println(o);
+    String user = "HoangDuong";
+    String pass = "1234567";
+    Account a = dao.login(user, pass);
+    if (a == null) {
+      System.out.println("tk sai");
+    } else{
+      System.out.println("tk dung");
     }
   }
 

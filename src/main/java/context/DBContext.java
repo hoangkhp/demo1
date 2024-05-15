@@ -11,11 +11,16 @@ public class DBContext {
     return DriverManager.getConnection(url, userID, password);
   }
 
-  private final String serverName = "LAPTOP-CUA-HOAN";
-  private final String dbName = "quanlybanhangmaytinh";
+  private final String serverName = "HOANGDUONG\\PHOANGDUONG";
+  private final String dbName = "SQL_JAVA";
   private final String portNumber = "1433";
   private final String instance = "";
   private final String userID = "sa";
-  private final String password = "anhemta123";
+  private final String password = "hoangduong120802";
 
+  public static void main(String[] args) {
+    try{
+      System.out.println(new DBContext().getConnection());
+    } catch (Exception e) {}
+  }
 }
