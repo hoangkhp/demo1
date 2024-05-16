@@ -8,31 +8,82 @@ import jakarta.servlet.annotation.*;
 import dao.DAO;
 import entity.Account;
 
-@WebServlet(name = "LoginControl", value = {"/login"})
+@WebServlet(name = "LoginControl", urlPatterns = {"/login"})
 public class LoginControl extends HttpServlet {
-  protected void processRequest (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    response.setContentType("text/html; charset=UTF-8");
-    String user = request.getParameter("user");
-    String pass = request.getParameter("pass");
+
+
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+//        processRequest(request, response);
+    //b1 get user,pass from cookie
+    Cookie arr[] = request.getCookies();
+    if(arr != null) {
+      for(Cookie o : arr) {
+        if(o.getName().equals("userC")) {
+          request.setAttribute("username", o.getValue());
+        }
+        if(o.getName().equals("passC")) {
+          request.setAttribute("password", o.getValue());
+        }
+      }
+    }
+    //b2: set user,pass to login form
+    request.getRequestDispatcher("Login.jsp").forward(request, response);
+  }
+
+  /**
+   * Handles the HTTP <code>POST</code> method.
+   *
+   * @param request servlet request
+   * @param response servlet response
+   * @throws ServletException if a servlet-specific error occurs
+   * @throws IOException if an I/O error occurs
+   */
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+//        processRequest(request, response);
+    response.setContentType("text/html;charset=UTF-8");
+    String username = request.getParameter("user");
+    String password = request.getParameter("pass");
+    String remember =request.getParameter("remember");
 
     DAO dao = new DAO();
-    Account a = dao.login(user, pass);
-
+    Account a = dao.login(username, password);
     if (a == null) {
-      request.setAttribute("mess", "Username or password is incorrect");
+      request.setAttribute("error", "Sai username hoac password!");
       request.getRequestDispatcher("Login.jsp").forward(request, response);
-    } else{
+    } else {
       HttpSession session = request.getSession();
-      session.setAttribute("user", a);
-      request.getRequestDispatcher("Home.jsp").forward(request, response);
+      session.setAttribute("acc", a);
+      session.setMaxInactiveInterval(60*60*24);
+      //luu account len tren cookie
+      Cookie u = new Cookie("userC", username);
+      Cookie p = new Cookie("passC", password);
+      if(remember != null) {
+        p.setMaxAge(60*60*24);
+      }else {
+        p.setMaxAge(0);
+      }
+
+      u.setMaxAge(60*60*24*365);//1 nam
+
+      response.addCookie(u);//luu u va p len Chrome
+      response.addCookie(p);
+
+      response.sendRedirect("home");
     }
   }
+
+  /**
+   * Returns a short description of the servlet.
+   *
+   * @return a String containing servlet description
+   */
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    processRequest(request, response);
-  }
-  @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    processRequest(request, response);
-  }
+  public String getServletInfo() {
+    return "Short description";
+  }// </editor-fold>
+
 }

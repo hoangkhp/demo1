@@ -2,6 +2,7 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Cart;
 import entity.Category;
 import entity.Product;
 
@@ -229,6 +230,7 @@ public Product getLast(){
     }
     return null;
   }
+  //7. Ham check ket qua dang nhap
   public Account checkAccount(String user) {
     String query = "select * from Account where Username = ?";
     try {
@@ -247,6 +249,7 @@ public Product getLast(){
     }
     return null;
   }
+  //8. Ham dang ki them tai khoan
   public void signup(String user, String pass){
     String query = "insert into Account\n" + "values(?,?,0,0)";
     try {
@@ -256,6 +259,102 @@ public Product getLast(){
       ps.setString(2, pass);
       ps.executeUpdate();
     } catch (Exception e){
+    }
+  }
+
+
+  //9. Sua
+  public void insertCart(int accountID, int productID, int amount, String size) {
+    String query = "insert Cart(accountID, productID, amount,size)\r\n"
+      + "values(?,?,?,?)";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, accountID);
+      ps.setInt(2, productID);
+      ps.setInt(3, amount);
+      ps.setString(4, size);
+      ps.executeUpdate();
+    } catch (Exception e) {
+    }
+  }
+  //10. Sua
+public List<Cart> getCartByAccountID(int accountID) {
+  List<Cart> list = new ArrayList<>();
+  String query = "select * from Cart where AccountID = ?";
+  try {
+    con = new DBContext().getConnection();//mo ket noi voi sql
+    ps = con.prepareStatement(query);
+    ps.setInt(1, accountID);
+    rs = ps.executeQuery();
+    while (rs.next()) {
+      list.add(new Cart(new Account(rs.getInt(1)),
+        new Product(rs.getInt(1)),
+        rs.getInt(3),
+        rs.getInt(4)));
+    }
+  } catch (Exception e) {
+  }
+  return list;
+}
+//11
+  public void deleteCart(int productID) {
+    String query = "delete from Cart where productID = ?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, productID);
+      ps.executeUpdate();
+    } catch (Exception e) {
+    }
+  }
+  //12.
+  public Cart checkCartExist(int accountID,int productID) {
+
+    String query = "select * from Cart\r\n"
+      + "where [accountID] = ? and [productID] = ?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, accountID);
+      ps.setInt(2, productID);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        return new Cart(new Account(rs.getInt(1)),
+          new Product(rs.getInt(1)),
+          rs.getInt(3),
+          rs.getInt(4));
+      }
+    } catch (Exception e) {
+    }
+    return null;
+  }
+  //13.
+  public void editAmountAndSizeCart(int accountID, int productID, int amount) {
+    String query = "update Cart set [amount]=?,\r\n"
+      + "where [accountID]=? and [productID]=?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, amount);
+      ps.setInt(3, accountID);
+      ps.setInt(4, productID);
+      ps.executeUpdate();
+    } catch (Exception e) {
+    }
+  }
+  //14.
+  public void editAmountCart(int accountID, int productID, int amount) {
+    String query = "update Cart set [amount]=?\r\n"
+      + "where [accountID]=? and [productID]=?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, amount);
+      ps.setInt(2, accountID);
+      ps.setInt(3, productID);
+      ps.executeUpdate();
+    } catch (Exception e) {
     }
   }
 

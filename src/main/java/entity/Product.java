@@ -18,6 +18,10 @@ public class Product {
     this.description = description;
   }
 
+  public Product(int id) {
+    this.id = id;
+  }
+
   public int getId() {
     return id;
   }

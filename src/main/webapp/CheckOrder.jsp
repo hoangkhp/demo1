@@ -108,7 +108,7 @@
 				  	${mess}
 				</div>
 				</c:if>
-
+<%--container--%>
 <%--      <div class="card">--%>
 <%--        <div class="card-header py-3 row">--%>
 <%--        <div class="col-sm-6">--%>
@@ -130,9 +130,10 @@
             <table class="table table-hover text-nowrap">
               <thead>
                 <tr>
-                  <th scope="col"></th>
                   <th scope="col">Order ID</th>
+                  <th scope="col">Products</th>
                   <th scope="col">Account</th>
+                  <th scope="col">Address</th>
                   <th scope="col">Total($)</th>
                   <th scope="col">Time</th>
                 </tr>

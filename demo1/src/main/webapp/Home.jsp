@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>DTH Store</title>
+        <title>JSP Page</title>
 <%--        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">--%>
 <%--        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>--%>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -14,7 +14,7 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body class="skin-light" onload="loadAmountCart()">
+    <body>
         <jsp:include page="Menu.jsp"></jsp:include>
             <div class="container">
                 <div class="row">
@@ -35,20 +35,20 @@
 
                     <div class="col-sm-9">
                         <div class="row">
-                        <c:forEach items="${listP}" var="o">
+                        <c:forEach begin="1" end="6" var="o">
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card">
-                                    <img class="card-img-top" src="${o.image}" alt="Card image cap">
+                                    <img class="card-img-top" src="https://image.yes24.vn/Upload/ProductImage/thethaochinhang/2063162_L.jpg?width=550&height=550" alt="Card image cap">
                                     <div class="card-body">
-                                        <h4 class="card-title show_txt"><a href="detail?pid=${o.id}" title="View Product">${o.name}</a></h4>
-                                        <p class="card-text show_txt">${o.category.name}
+                                        <h4 class="card-title show_txt"><a href="#" title="View Product">Giày adidas 2A</a></h4>
+                                        <p class="card-text show_txt">Giày đá bóng nam chính hãng Adidas Predator 18.4 FXG DB2007
                                         </p>
                                         <div class="row">
                                             <div class="col">
-                                                <p class="btn btn-danger btn-block">${o.price} $</p>
+                                                <p class="btn btn-danger btn-block">100 $</p>
                                             </div>
                                             <div class="col">
-                                                <button type="submit" class="btn btn-success btn-block">Add</button>
+                                                <a href="#" class="btn btn-success btn-block">Add to cart</a>
                                             </div>
                                         </div>
                                     </div>
@@ -63,29 +63,5 @@
 
         <jsp:include page="Footer.jsp"></jsp:include>
     </body>
-    <script>
-      function loadAmountCart(){
-        $.ajax({
-          url: "/loadAllAmountCart",
-          type: "get", //send it through get method
-          data: {
-
-          },
-          success: function (responseData) {
-            document.getElementById("amountCart").innerHTML = responseData;
-          }
-        });
-      }
-    </script>
-    <!-- JQuery -->
-    <script src="https://mdbootstrap.com/previews/ecommerce-demo/js/jquery-3.4.1.min.js"></script>
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="https://mdbootstrap.com/previews/ecommerce-demo/js/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="https://mdbootstrap.com/previews/ecommerce-demo/js/bootstrap.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://mdbootstrap.com/previews/ecommerce-demo/js/mdb.min.js"></script>
-    <!-- MDB Ecommerce JavaScript -->
-    <script type="text/javascript" src="https://mdbootstrap.com/previews/ecommerce-demo/js/mdb.ecommerce.min.js"></script>
 </html>
 

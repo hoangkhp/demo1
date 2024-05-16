@@ -21,15 +21,8 @@
                 height: 120px;
             }
         </style>
-    </head>
     <body>
-    <header>
-      <jsp:include page="LeftAdmin.jsp"></jsp:include>
-
-
-    </header>
-    <main>
-        <a class="container pt-4">
+        <div class="container">
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="row">
@@ -94,8 +87,8 @@
                     </ul>
                 </div>
             </div>
-            <a href="http://localhost:8085/home"><button type="button" class="btn btn-primary">Back to home</button>
-            </a>
+            <a href="#"><button type="button" class="btn btn-primary">Back to home</button>
+
         </div>
         <!-- Edit Modal HTML -->
         <div id="addEmployeeModal" class="modal fade">
@@ -202,7 +195,6 @@
             </div>
         </div>
     </a>
-    </main>
     <script src="js/manager.js" type="text/javascript"></script>
 </body>
 </html>
