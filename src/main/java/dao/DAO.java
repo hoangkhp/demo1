@@ -1,10 +1,7 @@
 package dao;
 
 import context.DBContext;
-import entity.Account;
-import entity.Cart;
-import entity.Category;
-import entity.Product;
+import entity.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -264,24 +261,24 @@ public Product getLast(){
 
 
   //9. Sua
-  public void insertCart(int accountID, int productID, int amount, String size) {
-    String query = "insert Cart(accountID, productID, amount,size)\r\n"
-      + "values(?,?,?,?)";
+  public void insertCart(int accountID, int productID, int amount) {
+    String query = "insert Cart(accountID, productID, amount)\r\n"
+      + "values(?,?,?)";
     try {
       con = new DBContext().getConnection();//mo ket noi voi sql
       ps = con.prepareStatement(query);
       ps.setInt(1, accountID);
       ps.setInt(2, productID);
       ps.setInt(3, amount);
-      ps.setString(4, size);
       ps.executeUpdate();
     } catch (Exception e) {
+      System.out.println(e.getMessage());
     }
   }
   //10. Sua
 public List<Cart> getCartByAccountID(int accountID) {
   List<Cart> list = new ArrayList<>();
-  String query = "select * from Cart where AccountID = ?";
+  String query = "select accountid, productid,amount,macart from Cart where AccountID = ?";
   try {
     con = new DBContext().getConnection();//mo ket noi voi sql
     ps = con.prepareStatement(query);
@@ -289,7 +286,7 @@ public List<Cart> getCartByAccountID(int accountID) {
     rs = ps.executeQuery();
     while (rs.next()) {
       list.add(new Cart(new Account(rs.getInt(1)),
-        new Product(rs.getInt(1)),
+        new Product(rs.getInt(2)),
         rs.getInt(3),
         rs.getInt(4)));
     }
@@ -358,6 +355,116 @@ public List<Cart> getCartByAccountID(int accountID) {
     }
   }
 
+  //15.
+  public void insertInvoice(int accountID, double tongGia) {
+    String query = "insert Invoice(accountID,tongGia,ngayXuat)\r\n"
+      + "values(?,?,?)";
+
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, accountID);
+      ps.setDouble(2, tongGia);
+      ps.setDate(3,getCurrentDate());
+      ps.executeUpdate();
+
+    } catch (Exception e) {
+
+    }
+  }
+  private static java.sql.Date getCurrentDate() {
+    java.util.Date today = new java.util.Date();
+    return new java.sql.Date(today.getTime());
+  }
+
+  //16.
+  public void deleteInvoiceByAccountId(String id) {
+    String query = "delete from Invoice\n"
+      + "where [accountID] = ?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setString(1, id);
+      ps.executeUpdate();
+    } catch (Exception e) {
+    }
+  }
+
+  //17.
+  public List<Invoice> searchByNgayXuat(String ngayXuat) {
+    List<Invoice> list = new ArrayList<>();
+    String query = "select * from Invoice\r\n"
+      + "where [ngayXuat] ='"+ngayXuat+"'";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+//            ps.setString(1,ngayXuat);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        list.add(new Invoice(rs.getInt(1),
+          new Account(rs.getInt(2)),
+          rs.getDouble(3),
+          rs.getDate(4)
+        ));
+      }
+    } catch (Exception e) {
+    }
+    return list;
+  }
+
+  //19.
+  public double sumAllInvoice() {
+    String query = "select SUM(tongGia) from Invoice";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        return rs.getDouble(1);
+      }
+    } catch (Exception e) {
+    }
+    return 0;
+  }
+  //20.
+  public List<Invoice> getAllInvoice() {
+    List<Invoice> list = new ArrayList<>();
+    String query = "select * from Invoice";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        list.add(new Invoice(rs.getInt(1),
+          new Account(rs.getInt(2)),
+          rs.getDouble(3),
+          rs.getDate(4)
+        ));
+      }
+    } catch (Exception e) {
+    }
+    return list;
+  }
+  //21.
+  public List<Account> getAllAccount() {
+    List<Account> list = new ArrayList<>();
+    String query = "select * from Account";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        list.add(new Account(rs.getInt(1),
+          rs.getString(2),
+          rs.getString(3),
+          rs.getInt(4),
+          rs.getInt(5)));
+      }
+    } catch (Exception e) {
+    }
+    return list;
+  }
+
   public static void main(String[] args) {
     DAO dao = new DAO();
     String user = "HoangDuong";
@@ -370,4 +477,15 @@ public List<Cart> getCartByAccountID(int accountID) {
     }
   }
 
+  public void deleteCartByAccountID(int accountID) {
+    String query = "delete from Cart \r\n"
+      + "where [accountID]=?";
+    try {
+      con = new DBContext().getConnection();//mo ket noi voi sql
+      ps = con.prepareStatement(query);
+      ps.setInt(1, accountID);
+      ps.executeUpdate();
+    } catch (Exception e) {
+    }
+  }
 }

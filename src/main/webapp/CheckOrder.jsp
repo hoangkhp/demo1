@@ -131,9 +131,7 @@
               <thead>
                 <tr>
                   <th scope="col">Order ID</th>
-                  <th scope="col">Products</th>
                   <th scope="col">Account</th>
-                  <th scope="col">Address</th>
                   <th scope="col">Total($)</th>
                   <th scope="col">Time</th>
                 </tr>
@@ -145,7 +143,7 @@
                   <th scope="row"></th>
                   <td>${i.maHD }</td>
                   <c:forEach items="${listAllAccount}" var="a">
-                  <c:if test="${i.accountID==a.id }">
+                  <c:if test="${i.account.id==a.id }">
                   <td>${a.user }</td>
                   </c:if>
                   </c:forEach>

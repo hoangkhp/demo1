@@ -7,54 +7,49 @@ package control;
 
 import dao.DAO;
 import entity.Account;
-import entity.Cart;
+import entity.Invoice;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 
-@WebServlet(name = "AddCartControl", urlPatterns = {"/addCart"})
-public class AddCartControl extends HttpServlet {
+@WebServlet(name = "SearchByAjaxHoaDon", urlPatterns = {"/searchAjaxHoaDon"})
+public class SearchByAjaxHoaDon extends HttpServlet {
 
-
-
-
-  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        int productID = Integer.parseInt(request.getParameter("pid"));
-        HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("acc");
-        if(a == null) {
-        	response.sendRedirect("login");
-        	return;
-        }
-        int accountID = a.getId();
-        int amount = Integer.parseInt(request.getParameter("quantity"));
-
+        String ngayXuat = request.getParameter("ngayXuat");
         DAO dao = new DAO();
-        Cart cartExisted = dao.checkCartExist(accountID,productID);
-        int amountExisted;
-        String sizeExisted;
-        if(cartExisted != null) {
-        	 amountExisted = cartExisted.getAmount();
-        	 dao.editAmountAndSizeCart(accountID,productID, (amountExisted+amount));
-        	 request.setAttribute("mess", "Da tang so luong san pham!");
-        	 request.getRequestDispatcher("managerCart").forward(request, response);
+        List<Invoice> listInvoiceByDate = dao.searchByNgayXuat(ngayXuat);
+        List<Account> listAllAccount = dao.getAllAccount();
+        PrintWriter out = response.getWriter();
+        double tongGia;
+        for (Invoice o : listInvoiceByDate) {
+        	for (Account a : listAllAccount) {
+        		if(o.getAccount().getId() == a.getId()) {
+        			tongGia=Math.round((o.getTongGia()) * 100.0) / 100.0;
+        	out.println("<tr>\r\n"
+        			+ "                  <th scope=\"row\"></th>\r\n"
+        			+ "                  <td>"+o.getMaHD()+"</td>\r\n"
+        			+ "                  <td>"+a.getUser()+"</td>\r\n"
+        			+ "                  <td>"+tongGia+"</td>\r\n"
+        			+ "                  <td>"+o.getNgayXuat()+"</td> \r\n"
+        			+ "                </tr>");
+        		}
+        		}
         }
-        else {
-        	  dao.insertCart(accountID, productID, amount);
-        	  request.setAttribute("mess", "Da them san pham vao gio hang!");
-        	  request.getRequestDispatcher("managerCart").forward(request, response);
-        }
+
 
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -102,7 +102,12 @@
                                             </div> <!-- row.// -->
                                             <hr>
                                             <a type="submit" class="btn btn-lg btn-primary text-uppercase"> Buy now </a>
-                                            <a type="submit" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </a>
+                                          <form action="/addCart" >
+                                            <input type="hidden" value="${d.id}" name="pid">
+                                            <input type="hidden" value="1" name="quantity">
+                                            <button type="submit" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to cart </button>
+
+                                          </form>
                                         </article> <!-- card-body.// -->
                                     </aside> <!-- col.// -->
                                 </div> <!-- row.// -->

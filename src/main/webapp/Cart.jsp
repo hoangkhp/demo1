@@ -43,9 +43,6 @@
                     <div class="py-2 text-uppercase">Price</div>
                   </th>
                   <th scope="col" class="border-0 bg-light">
-                    <div class="py-2 text-uppercase">Delivery</div>
-                  </th>
-                  <th scope="col" class="border-0 bg-light">
                     <div class="py-2 text-uppercase">Amount</div>
                   </th>
                   <th scope="col" class="border-0 bg-light">
@@ -68,17 +65,17 @@
                             </div>
                           </div>
                         </th>
-<%--                        <td class="align-middle"><strong>${p.price}$</strong></td>--%>
+                        <td class="align-middle"><strong>${p.price}$</strong></td>
 <%--                        <td class="align-middle"><strong>${p.color}</strong></td>--%>
 <%--                        <td class="align-middle"><strong>${p.delivery}</strong></td>--%>
 
 
                         <td class="align-middle">
-                          <a href="subAmountCart?productID=${o.productID}&amount=${o.amount}"><button class="btnSub">-</button></a>
+                          <a href="subAmountCart?productID=${o.product.id}&amount=${o.amount}"><button class="btnSub">-</button></a>
                           <strong>${o.amount}</strong>
-                          <a href="addAmountCart?productID=${o.productID}&amount=${o.amount}"><button class="btnAdd">+</button></a>
+                          <a href="addAmountCart?productID=${o.product.id}&amount=${o.amount}"><button class="btnAdd">+</button></a>
                         </td>
-                        <td class="align-middle"><a href="deleteCart?productID=${o.productID }" class="text-dark">
+                        <td class="align-middle"><a href="deleteCart?productID=${o.product.id }" class="text-dark">
                           <button type="button" class="btn btn-danger">Delete</button>
                         </a>
                         </td>

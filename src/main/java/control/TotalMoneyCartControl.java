@@ -39,13 +39,13 @@ public class TotalMoneyCartControl extends HttpServlet {
         double totalMoney=0;
         for(Cart o : list) {
         	for(Product p : list2) {
-        		if(o.getCartID()==p.getId()) {
+        		if(o.getProduct().getId()==p.getId()) {
         			totalMoney=totalMoney+p.getPrice()*o.getAmount();
         		}
         	}
         }
 
-        double totalMoneyVAT=totalMoney*0.9;
+        double totalMoneyVAT=totalMoney*1.1;
         totalMoneyVAT = Math.round(totalMoneyVAT);
 
 

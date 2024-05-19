@@ -38,23 +38,50 @@
                 <input name="email" type="text" id="email" class="form-control" placeholder="email" required="" autofocus="">
                 <label for="deliveryAddress">Delivery Address</label>
                 <input name="deliveryAddress" type="text" id="deliveryAddress" class="form-control" placeholder="Delivery Address" required="" autofocus="">
-               
+
                 <button class="btn btn-success btn-block" type="submit"><i class="fas fa-american-sign-language-interpreting"></i>Dat Hang</button>
-                
-          
+
+
                    <c:if test="${email!=null }">
                  <div class="alert alert-danger" role="alert">
 						 ${email}
 				</div>
 				</c:if>
-				
-				
+
+
             </form>
 
-           
-            <br>
 
+            <br>
         </div>
+      <%--          Hiển thị danh sách các sản phẩm trong cart--%>
+      <c:forEach items="${listCart}" var="o">
+        <c:forEach items="${listProduct}" var="p">
+          <c:if test="${o.product.id == p.id}">
+            <tr>
+              <th scope="row">
+                <div class="p-2">
+
+                  <img src="${p.image}" alt="" width="70" class="img-fluid rounded shadow-sm">
+
+                  <div class="ml-3 d-inline-block align-middle">
+                    <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block">${p.name}</a></h5><span class="text-muted font-weight-normal font-italic"></span>
+                  </div>
+                </div>
+              </th>
+              <td class="align-middle"><strong>${p.price}$</strong></td>
+              <td class="align-middle">
+                <strong>${o.amount}</strong>
+              </td>
+            </tr>
+          </c:if>
+        </c:forEach>
+      </c:forEach>
+<%--      Hiển thị tổng tiền--%>
+      <div class="p-4">
+        <ul class="list-unstyled mb-4" id="contentTotalMoney">
+        </ul>
+      </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
@@ -77,19 +104,29 @@
                 $('#logreg-forms #btn-signup').click(toggleSignUp);
                 $('#logreg-forms #cancel_signup').click(toggleSignUp);
             })
-            
-            window.addEventListener("load",function loadAmountCart(){
+
+            window.addEventListener("DOMContentLoaded",function loadAmountCart(){
+              $.ajax({
+                url: "/totalMoneyCart",
+                type: "get", //send it through get method
+                data: {
+
+                },
+                success: function (responseData) {
+                  document.getElementById("contentTotalMoney").innerHTML = responseData;
+                }
+              });
                         	 $.ajax({
                                  url: "/WebsiteBanGiay/loadAllAmountCart",
                                  type: "get", //send it through get method
                                  data: {
-                                     
+
                                  },
                                  success: function (responseData) {
                                      document.getElementById("amountCart").innerHTML = responseData;
                                  }
                              });
-                        },false);         
+                        },false);
         </script>
     </body>
 </html>

@@ -47,8 +47,12 @@
                                             <div class="col">
                                                 <p class="btn btn-danger btn-block">${o.price} $</p>
                                             </div>
+                                          <form action="/addCart" >
+                                            <input type="hidden" value="${o.id}" name="pid">
+                                            <input type="hidden" value="1" name="quantity">
+                                            <button type="submit" class="btn btn-success btn-block">Add</button>
+                                          </form>
                                             <div class="col">
-                                                <button type="submit" class="btn btn-success btn-block">Add</button>
                                             </div>
                                         </div>
                                     </div>

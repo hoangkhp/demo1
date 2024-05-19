@@ -7,53 +7,40 @@ package control;
 
 import dao.DAO;
 import entity.Account;
-import entity.Cart;
+import entity.Invoice;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 
-@WebServlet(name = "AddCartControl", urlPatterns = {"/addCart"})
-public class AddCartControl extends HttpServlet {
+@WebServlet(name = "InvoiceControl", urlPatterns = {"/hoaDon"})
+public class InvoiceControl extends HttpServlet {
 
-
-
-
-  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        int productID = Integer.parseInt(request.getParameter("pid"));
-        HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("acc");
-        if(a == null) {
-        	response.sendRedirect("login");
-        	return;
-        }
-        int accountID = a.getId();
-        int amount = Integer.parseInt(request.getParameter("quantity"));
 
         DAO dao = new DAO();
-        Cart cartExisted = dao.checkCartExist(accountID,productID);
-        int amountExisted;
-        String sizeExisted;
-        if(cartExisted != null) {
-        	 amountExisted = cartExisted.getAmount();
-        	 dao.editAmountAndSizeCart(accountID,productID, (amountExisted+amount));
-        	 request.setAttribute("mess", "Da tang so luong san pham!");
-        	 request.getRequestDispatcher("managerCart").forward(request, response);
-        }
-        else {
-        	  dao.insertCart(accountID, productID, amount);
-        	  request.setAttribute("mess", "Da them san pham vao gio hang!");
-        	  request.getRequestDispatcher("managerCart").forward(request, response);
-        }
 
+
+
+        double sumAllInvoice = dao.sumAllInvoice();
+
+        List<Invoice> listAllInvoice = dao.getAllInvoice();
+        List<Account> listAllAccount = dao.getAllAccount();
+
+        request.setAttribute("listAllInvoice", listAllInvoice);
+        request.setAttribute("listAllAccount", listAllAccount);
+        request.setAttribute("sumAllInvoice", sumAllInvoice);
+
+
+        request.getRequestDispatcher("CheckOrder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
